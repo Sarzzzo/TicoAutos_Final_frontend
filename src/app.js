@@ -74,3 +74,8 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         messageDiv.innerHTML = '<span style="color: #dc2626;">Error critico de servidor.</span>';
     }
 });
+
+function enterAsGuest() {
+    localStorage.removeItem('token'); // Ensure no old tokens are present
+    window.location.href = 'dashboard.html';
+}
