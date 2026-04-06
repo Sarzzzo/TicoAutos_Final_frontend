@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicoAutos - Catalogo</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./css/dashboard.css">
 </head>
 <body>
     <!-- NAVBAR -->
     <nav class="navbar">
         <a href="dashboard.html" class="navbar-logo">
-            <img src="./img/ImageProy.png" alt="Logo TicoAutos" class="logo-img">
+            <img src="./assets/img/ImageProy.png" alt="Logo TicoAutos" class="logo-img">
         </a>
         <div class="navbar-center">
             <span class="navbar-link active" onclick="window.location.href='dashboard.html'">Inicio</span>
@@ -71,32 +71,7 @@
     <!-- GRID DE VEHÍCULOS -->
     <div class="vehicles-grid" id="vehiclesGrid"></div>
 
-    <script src="../src/common.js"></script>
-    <script src="../src/dashboard.js"></script>
-    <script>
-        function searchFromNavbar() {
-            const term = document.getElementById('searchInput').value.trim();
-            if (term) {
-                document.getElementById('filterBrand').value = term;
-                loadVehicles();
-                document.getElementById('grid-section').scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            const token = localStorage.getItem('token');
-            const authElements = document.getElementById('auth-nav');
-            const noAuthElements = document.getElementById('noauth-nav');
-            if (token) {
-                authElements.style.display = 'flex';
-                noAuthElements.style.display = 'none';
-                document.getElementById('nav-publish-link').style.display = 'inline';
-                if(document.getElementById('hero-publish-action')) document.getElementById('hero-publish-action').style.display = 'block';
-            } else {
-                authElements.style.display = 'none';
-                noAuthElements.style.display = 'flex';
-                if(document.getElementById('hero-publish-action')) document.getElementById('hero-publish-action').style.display = 'none';
-            }
-        });
-    </script>
+    <script src="./js/common.js"></script>
+    <script src="./js/dashboard.js"></script>
 </body>
 </html>
