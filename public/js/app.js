@@ -62,10 +62,24 @@ document.getElementById('register-cedula').addEventListener('input', async (e) =
             if (response.ok) {
                 firstnameInput.value = data.nombre;
                 lastnameInput.value = `${data.primerApellido} ${data.segundoApellido}`;
-                messageDiv.innerHTML = '<span style="color: var(--accent);">Cedula verificada!</span>';
+                
+                if (data.manual) {
+                    firstnameInput.readOnly = false;
+                    lastnameInput.readOnly = false;
+                    firstnameInput.style.background = 'white';
+                    lastnameInput.style.background = 'white';
+                    messageDiv.innerHTML = '<span style="color: #f59e0b;">Cedula no encontrada en Hacienda. Ingrese sus datos manualmente.</span>';
+                } else {
+                    firstnameInput.readOnly = true;
+                    lastnameInput.readOnly = true;
+                    firstnameInput.style.background = 'rgba(255,255,255,0.05)';
+                    lastnameInput.style.background = 'rgba(255,255,255,0.05)';
+                    messageDiv.innerHTML = '<span style="color: var(--accent);">Cedula verificada!</span>';
+                }
             } else {
                 firstnameInput.value = '';
                 lastnameInput.value = '';
+                firstnameInput.readOnly = true;
                 messageDiv.innerHTML = '<span style="color: #dc2626;">Cedula no encontrada o invalida.</span>';
             }
         } catch (error) {
