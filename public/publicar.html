@@ -20,6 +20,10 @@
         </div>
         <div class="navbar-right">
             <div id="auth-nav" style="display: flex; align-items: center; gap: 16px;">
+                <button class="icon-btn" onclick="window.location.href='mensajes.html'" title="Mensajes">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span class="badge" id="unread-count" style="display: none;">0</span>
+                </button>
                 <div class="user-avatar" onclick="logout()" title="Cerrar Sesion">U</div>
             </div>
         </div>
@@ -83,16 +87,12 @@
         </div>
     </div>
 
+    <script src="../src/common.js"></script>
     <script src="../src/publish.js"></script>
     <script>
         // Check authentication on load
         const token = localStorage.getItem('token');
         if (!token) window.location.href = '/';
-
-        function logout() {
-            localStorage.removeItem('token');
-            window.location.href = '/';
-        }
     </script>
 </body>
 
