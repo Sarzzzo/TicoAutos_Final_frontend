@@ -19,6 +19,8 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
     e.preventDefault();
     const cedula = document.getElementById('register-cedula').value; // Added
     const username = document.getElementById('register-username').value;
+    const firstName = document.getElementById('register-firstname').value;
+    const lastName = document.getElementById('register-lastname').value;
     const email = document.getElementById('register-email').value;
     const password = document.getElementById('register-password').value;
     const messageDiv = document.getElementById('status-message');
@@ -29,7 +31,7 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
         const response = await fetch('http://localhost:3000/api/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password, cedula }) // Added cedula
+            body: JSON.stringify({ username, email, password, cedula, firstName, lastName }) // Added names
         });
         const data = await response.json();
         if (response.ok) {
@@ -60,23 +62,25 @@ document.getElementById('register-cedula').addEventListener('input', async (e) =
             const data = await response.json();
             
             if (response.ok) {
-                firstnameInput.value = data.nombre;
-                lastnameInput.value = `${data.primerApellido} ${data.segundoApellido}`;
-                
                 if (data.manual) {
+                    firstnameInput.value = '';
+                    lastnameInput.value = '';
                     firstnameInput.readOnly = false;
                     lastnameInput.readOnly = false;
-                    firstnameInput.style.background = 'white';
-                    lastnameInput.style.background = 'white';
-                    messageDiv.innerHTML = '<span style="color: #f59e0b;">Cedula no encontrada en Hacienda. Ingrese sus datos manualmente.</span>';
+                    firstnameInput.style.background = '#25293d';
+                    lastnameInput.style.background = '#25293d';
+                    messageDiv.innerHTML = '<span style="color: #f59e0b;">Cédula no encontrada. Ingresa tus datos manualmente.</span>';
                 } else {
+                    firstnameInput.value = data.nombre;
+                    lastnameInput.value = `${data.primerApellido} ${data.segundoApellido}`;
                     firstnameInput.readOnly = true;
                     lastnameInput.readOnly = true;
                     firstnameInput.style.background = 'rgba(255,255,255,0.05)';
                     lastnameInput.style.background = 'rgba(255,255,255,0.05)';
-                    messageDiv.innerHTML = '<span style="color: var(--accent);">Cedula verificada!</span>';
+                    messageDiv.innerHTML = '<span style="color: #4ade80;">Cédula verificada con éxito.</span>';
                 }
-            } else {
+            } 
+else {
                 firstnameInput.value = '';
                 lastnameInput.value = '';
                 firstnameInput.readOnly = true;
@@ -137,8 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('token', token);
         if (status === 'Pending') {
             // Show completion section
-            document.getElementById('login-section').classList.remove('active');
-            document.getElementById('register-section').classList.remove('active');
+            document.querySelectorAll('.form-section').forEach(sec => sec.classList.remove('active'));
             document.getElementById('google-cedula-section').style.display = 'block';
             document.querySelector('.auth-tabs').style.display = 'none';
         } else {

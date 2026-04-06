@@ -1,126 +1,148 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicoAutos</title>
     <link rel="stylesheet" href="./css/auth.css">
 </head>
+
 <body>
-    <div class="new-auth-wrapper">
-        <!-- LEFT: BRANDING (gradient matching reference) -->
-        <div class="new-auth-brand">
-            <div class="brand-content">
-                <h1>Welcome to<br>TicoAutos</h1>
-                <p>La plataforma automotriz más avanzada del país. Encuentra o vende tu auto sin intermediarios, pura velocidad.</p>
+    <div class="auth-container">
+        <!-- LEFT: BRANDING SIDEBAR -->
+        <div class="auth-sidebar" style="background-image: url('./assets/img/auth-brand.png');">
+            <div class="sidebar-overlay"></div>
+            <div class="sidebar-content">
+                <img src="./assets/img/ImageProy.png" alt="TicoAutos Logo" class="sidebar-logo">
+                <div class="sidebar-text">
+                    <h2>Impulsando tus sueños</h2>
+                    <p>La red automotriz más prestigiosa de Costa Rica. Encuentra, vende y conecta con seguridad.</p>
+                </div>
+                <div class="sidebar-footer">
+                </div>
             </div>
-            <!-- Decorative shapes matching the reference -->
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-            <div class="shape shape-4"></div>
         </div>
 
-        <!-- RIGHT: FORM (Clean white background) -->
-        <div class="new-auth-form-container">
-            <div class="new-auth-form-box">
-                <div class="auth-logo-center">
-                    <img src="./assets/img/ImageProy.png" alt="Logo TicoAutos">
-                </div>
-                
-                <div class="new-tabs">
+        <!-- RIGHT: FORM SIDE -->
+        <div class="auth-main">
+            <div class="auth-card">
+                <div class="auth-tabs">
                     <button class="tab-btn active" onclick="switchTab('login')">Ingresar</button>
-                    <button class="tab-btn" onclick="switchTab('register')">Registro</button>
+                    <button class="tab-btn" onclick="switchTab('register')">Crear Cuenta</button>
                 </div>
 
-                <!-- LOGIN -->
+                <!-- LOGIN SECTION -->
                 <div id="login-section" class="form-section active">
-                    <h2 class="form-title">USER LOGIN</h2>
+                    <h1 class="auth-title">Bienvenido de vuelta</h1>
+                    <p class="auth-subtitle">Ingresa tus credenciales para continuar</p>
+
                     <form id="login-form">
-                        <div class="new-input-group">
-                            <span class="icon">👤</span>
-                            <input type="text" id="login-username" placeholder="Usuario o Correo" required>
+                        <div class="input-group">
+                            <label>Usuario o Correo</label>
+                            <input type="text" id="login-username" placeholder="tu@email.com o usuario" required>
                         </div>
-                        <div class="new-input-group">
-                            <span class="icon">🔒</span>
-                            <input type="password" id="login-password" placeholder="Contraseña" required>
+                        <div class="input-group">
+                            <label>Contraseña</label>
+                            <input type="password" id="login-password" placeholder="••••••••" required>
                         </div>
-                        <div class="form-options">
-                            <label><input type="checkbox" checked> Remember me</label>
+                        <div class="form-footer">
+                            <label class="checkbox-container">
+                                <input type="checkbox" checked>
+                                <span class="checkmark"></span>
+                                Recordarme
+                            </label>
+                            <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
                         </div>
-                        <button type="submit" class="btn-gradient">INGRESAR</button>
+                        <button type="submit" class="btn-primary">INGRESAR</button>
                     </form>
-                    <div style="margin-top: 16px; text-align: center;">
-                        <button onclick="window.location.href='/api/auth/google'" class="btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;">
-                            <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="18" alt="Google">
-                            Continuar con Google
+
+                    <div class="divider"><span>o continúa con</span></div>
+
+                    <div class="social-login">
+                        <button onclick="window.location.href='/api/auth/google'" class="btn-social">
+                            <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google">
+                            Google
                         </button>
                     </div>
                 </div>
 
-                <!-- GOOGLE CEDULA COMPLETION (Hidden by default) -->
-                <div id="google-cedula-section" class="form-section" style="display: none;">
-                    <h2 class="form-title">COMPLETAR PERFIL</h2>
-                    <p style="color: gray; margin-bottom: 20px;">Por requerimiento del TSE, necesitamos validar tu cédula para continuar.</p>
-                    <form id="google-cedula-form">
-                        <div class="new-input-group">
-                            <span class="icon">🆔</span>
-                            <input type="text" id="google-cedula" placeholder="Cédula (9 dígitos)" required maxlength="9">
+                <!-- REGISTER SECTION -->
+                <div id="register-section" class="form-section">
+                    <h1 class="auth-title">Crea tu cuenta</h1>
+                    <p class="auth-subtitle">Únete a la mayor comunidad automotriz</p>
+
+                    <form id="register-form">
+                        <div class="input-group">
+                            <label>Número de Cédula</label>
+                            <input type="text" id="register-cedula" placeholder="9 dígitos sin guiones" required
+                                maxlength="9">
                         </div>
-                        <div class="new-input-group">
-                            <span class="icon">👤</span>
-                            <input type="text" id="google-firstname" placeholder="Nombre" readonly style="background: rgba(255,255,255,0.05);">
+
+                        <div class="row">
+                            <div class="input-group">
+                                <label>Nombre</label>
+                                <input type="text" id="register-firstname" placeholder="Nombre completo" readonly>
+                            </div>
+                            <div class="input-group">
+                                <label>Apellidos</label>
+                                <input type="text" id="register-lastname" placeholder="Apellidos" readonly>
+                            </div>
                         </div>
-                        <div class="new-input-group">
-                            <span class="icon">👤</span>
-                            <input type="text" id="google-lastname" placeholder="Apellidos" readonly style="background: rgba(255,255,255,0.05);">
+
+                        <div class="input-group">
+                            <label>Usuario</label>
+                            <input type="text" id="register-username" placeholder="Nombre de usuario" required>
                         </div>
-                        <button type="submit" class="btn-gradient">FINALIZAR REGISTRO</button>
+
+                        <div class="input-group">
+                            <label>Correo Electrónico</label>
+                            <input type="email" id="register-email" placeholder="correo@ejemplo.com" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Contraseña</label>
+                            <input type="password" id="register-password" placeholder="Mínimo 6 caracteres" required>
+                        </div>
+
+                        <button type="submit" class="btn-primary">CREAR CUENTA</button>
                     </form>
                 </div>
 
-                <!-- REGISTER -->
-                <div id="register-section" class="form-section">
-                    <h2 class="form-title">CREAR CUENTA</h2>
-                    <form id="register-form">
-                        <div class="new-input-group">
-                            <span class="icon">🆔</span>
-                            <input type="text" id="register-cedula" placeholder="Cédula (9 dígitos)" required maxlength="9">
+                <!-- GOOGLE CEDULA COMPLETION (Hidden by default) -->
+                <div id="google-cedula-section" class="form-section" style="display: none;">
+                    <h1 class="auth-title">Completar Perfil</h1>
+                    <p class="auth-subtitle">Necesitamos validar tu identidad para finalizar</p>
+                    <form id="google-cedula-form">
+                        <div class="input-group">
+                            <label>Número de Cédula</label>
+                            <input type="text" id="google-cedula" placeholder="9 dígitos" required maxlength="9">
                         </div>
-                        <div class="new-input-group">
-                            <span class="icon">👤</span>
-                            <input type="text" id="register-firstname" placeholder="Nombre (Autocompletado)" readonly style="background: rgba(255,255,255,0.05);">
+                        <div class="row">
+                            <div class="input-group">
+                                <label>Nombre</label>
+                                <input type="text" id="google-firstname" placeholder="Nombre" readonly>
+                            </div>
+                            <div class="input-group">
+                                <label>Apellidos</label>
+                                <input type="text" id="google-lastname" placeholder="Apellidos" readonly>
+                            </div>
                         </div>
-                        <div class="new-input-group">
-                            <span class="icon">👤</span>
-                            <input type="text" id="register-lastname" placeholder="Apellidos (Autocompletado)" readonly style="background: rgba(255,255,255,0.05);">
-                        </div>
-                        <div class="new-input-group">
-                            <span class="icon">👤</span>
-                            <input type="text" id="register-username" placeholder="Usuario" required>
-                        </div>
-                        <div class="new-input-group">
-                            <span class="icon">✉️</span>
-                            <input type="email" id="register-email" placeholder="Correo Electrónico" required>
-                        </div>
-                        <div class="new-input-group">
-                            <span class="icon">🔒</span>
-                            <input type="password" id="register-password" placeholder="Contraseña (Min 6)" required>
-                        </div>
-                        <button type="submit" class="btn-gradient">REGISTRARSE</button>
+                        <button type="submit" class="btn-primary">FINALIZAR REGISTRO</button>
                     </form>
                 </div>
-                
-                <div class="guest-access-container" style="text-align: center; margin-top: 1.5rem;">
-                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">¿Solo quieres ver los autos?</p>
-                    <button onclick="enterAsGuest()" class="btn-guest" style="background: none; border: 1px solid var(--accent); color: var(--accent); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; transition: all 0.3s; font-weight: 600;">Ingresar como invitado</button>
+
+                <div class="guest-access">
+                    <p>¿Solo quieres explorar? <button onclick="enterAsGuest()" class="btn-link">Ingresar como
+                            invitado</button></p>
                 </div>
-                
-                <div id="status-message" class="message"></div>
+
+                <div id="status-message" class="status-box"></div>
             </div>
         </div>
     </div>
 
     <script src="./js/app.js"></script>
 </body>
+
 </html>
