@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicoAutos - Detalle</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./css/detail.css">
 </head>
 <body>
     <!-- NAVBAR -->
     <nav class="navbar">
         <a href="dashboard.html" class="navbar-logo">
-            <img src="./img/ImageProy.png" alt="Logo TicoAutos" class="logo-img">
+            <img src="./assets/img/ImageProy.png" alt="Logo TicoAutos" class="logo-img">
         </a>
         <div class="navbar-center">
             <span class="navbar-link" onclick="window.location.href='dashboard.html'">Volver al Catalogo</span>
@@ -81,22 +81,7 @@
         </div>
     </div>
 
-    <script src="../src/common.js"></script>
-    <script src="../src/detail.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const token = localStorage.getItem('token');
-            const authElements = document.getElementById('auth-nav');
-            const noAuthElements = document.getElementById('noauth-nav');
-            if (token) {
-                authElements.style.display = 'flex';
-                noAuthElements.style.display = 'none';
-                document.getElementById('nav-publish-link').style.display = 'inline';
-            } else {
-                authElements.style.display = 'none';
-                noAuthElements.style.display = 'flex';
-            }
-        });
-    </script>
+    <script src="./js/common.js"></script>
+    <script src="./js/detail.js"></script>
 </body>
 </html>
