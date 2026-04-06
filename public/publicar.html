@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicoAutos - Publicar</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./css/publish.css">
 </head>
 
 <body>
@@ -13,7 +13,7 @@
     <!-- NAVBAR -->
     <nav class="navbar">
         <a href="dashboard.html" class="navbar-logo">
-            <img src="./img/ImageProy.png" alt="Logo TicoAutos" class="logo-img">
+            <img src="./assets/img/ImageProy.png" alt="Logo TicoAutos" class="logo-img">
         </a>
         <div class="navbar-center">
             <span class="navbar-link" onclick="window.location.href='dashboard.html'">Volver al Catalogo</span>
@@ -87,13 +87,8 @@
         </div>
     </div>
 
-    <script src="../src/common.js"></script>
-    <script src="../src/publish.js"></script>
-    <script>
-        // Check authentication on load
-        const token = localStorage.getItem('token');
-        if (!token) window.location.href = '/';
-    </script>
+    <script src="./js/common.js"></script>
+    <script src="./js/publish.js"></script>
 </body>
 
 </html>
