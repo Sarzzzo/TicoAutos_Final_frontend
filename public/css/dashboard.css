@@ -1,0 +1,398 @@
+/* =============================================
+   TicoAutos - Catalog Styles (Dashboard)
+   ============================================= */
+
+@import url('./global.css');
+
+/* HERO SECTION */
+.hero {
+    padding: 80px 50px 50px;
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -1.5px;
+}
+
+.hero h1 .highlight {
+    background: linear-gradient(135deg, var(--primary), var(--celeste));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero p {
+    color: var(--text-muted);
+    font-size: 18px;
+    max-width: 650px;
+    margin: 0 auto 32px;
+    line-height: 1.7;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+}
+
+/* =============================================
+   FILTER BAR
+   ============================================= */
+.filter-bar {
+    padding: 0 50px 36px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filter-bar select,
+.filter-bar input {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 12px 18px;
+    color: var(--text-white);
+    font-size: 15px;
+    outline: none;
+    min-width: 170px;
+}
+
+.filter-bar select option {
+    background: var(--bg-dark);
+}
+
+.filter-bar .filter-apply {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.filter-bar .filter-apply:hover {
+    background: var(--primary-hover);
+}
+
+/* =============================================
+   SECTION LABEL
+   ============================================= */
+.section-label {
+    padding: 0 50px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-label h2 {
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+}
+
+.section-label span {
+    font-size: 15px;
+    color: var(--text-muted);
+}
+
+/* =============================================
+   VEHICLES GRID (3 columns, big cards)
+   ============================================= */
+.vehicles-grid {
+    padding: 0 50px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+@media (max-width: 1100px) {
+    .vehicles-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .vehicles-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.vehicle-card {
+    background: var(--bg-surface);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: all 0.35s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(124, 58, 237, 0.12);
+    border-color: rgba(124, 58, 237, 0.3);
+}
+
+.vehicle-card .card-image {
+    width: 100%;
+    height: 260px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--bg-card);
+    position: relative;
+}
+
+.vehicle-card .card-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--accent);
+    color: white;
+    padding: 5px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.vehicle-card .card-badge.sold {
+    background: var(--danger);
+}
+
+.vehicle-card .card-body {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.vehicle-card .card-price {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 6px;
+}
+
+.vehicle-card .card-title {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text-white);
+    margin-bottom: 14px;
+}
+
+.vehicle-card .card-meta {
+    display: flex;
+    gap: 18px;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* =============================================
+   AUTH PAGE (Full screen)
+   ============================================= */
+
+.auth-logo {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 32px;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.auth-logo span {
+    color: var(--accent);
+}
+
+.auth-brand-side {
+    flex: 1;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(56, 189, 248, 0.15), rgba(16, 185, 129, 0.1));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-brand-side::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: rgba(124, 58, 237, 0.2);
+    border-radius: 50%;
+    top: -100px;
+    right: -100px;
+    filter: blur(80px);
+}
+
+.auth-brand-side::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(56, 189, 248, 0.15);
+    border-radius: 50%;
+    bottom: -50px;
+    left: -50px;
+    filter: blur(60px);
+}
+
+.auth-logo {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--text-white);
+    margin-bottom: 40px;
+}
+
+.auth-logo span {
+    color: var(--primary);
+}
+
+.tabs {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 36px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding-bottom: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+    margin-bottom: -1px;
+}
+
+.form-section {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.form-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.input-group {
+    margin-bottom: 22px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background: var(--bg-surface);
+    color: var(--text-white);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-group input::placeholder {
+    color: #475569;
+}
+
+.input-group input:focus {
+    border-color: var(--primary);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.submit-btn:hover {
+    background: var(--primary-hover);
+}
+
+.message {
+    margin-top: 16px;
+    text-align: center;
+    min-height: 24px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+/* =============================================
+   EMPTY STATE
+   ============================================= */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.empty-state h3 {
+    font-size: 22px;
+    color: var(--text-white);
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    font-size: 16px;
+}
