@@ -20,6 +20,7 @@
             <div id="auth-nav" style="display: none; align-items: center; gap: 16px;">
                 <button class="icon-btn" onclick="window.location.href='mensajes.html'" title="Mensajes">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span class="badge" id="unread-count" style="display: none;">0</span>
                 </button>
                 <div class="user-avatar" onclick="logout()" title="Cerrar Sesion">U</div>
             </div>
@@ -40,7 +41,12 @@
             <div class="detail-image" id="detail-image"></div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;">
                 <h1 id="vehicle-title" class="detail-title">Cargando...</h1>
-                <div id="vehicle-price" class="detail-price">₡0</div>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div id="vehicle-price" class="detail-price">₡0</div>
+                    <button id="share-btn" class="icon-btn" title="Compartir Vehiculo" style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                    </button>
+                </div>
             </div>
             <div class="detail-tags">
                 <span id="vehicle-year" class="detail-tag">Año: 0000</span>
@@ -75,12 +81,9 @@
         </div>
     </div>
 
+    <script src="../src/common.js"></script>
     <script src="../src/detail.js"></script>
     <script>
-        function logout() {
-            localStorage.removeItem('token');
-            window.location.href = '/';
-        }
         document.addEventListener('DOMContentLoaded', () => {
             const token = localStorage.getItem('token');
             const authElements = document.getElementById('auth-nav');

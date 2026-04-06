@@ -123,6 +123,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('vehicle-container').style.display = 'block';
 
+        // SHARE functionality
+        document.getElementById('share-btn').addEventListener('click', () => {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                const btn = document.getElementById('share-btn');
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<span style="font-size: 12px; color: var(--accent);">Copiado!</span>';
+                btn.style.borderColor = 'var(--accent)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalHtml;
+                    btn.style.borderColor = 'var(--border-color)';
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar:', err);
+                alert('No se pudo copiar el enlace automáticamente.');
+            });
+        });
+
     } catch (error) {
         console.error('Error fetching vehicle:', error);
         alert('Error de conexion al cargar el vehiculo.');
