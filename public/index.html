@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicoAutos</title>
-    <link rel="stylesheet" href="./login.css">
+    <link rel="stylesheet" href="./css/auth.css">
 </head>
 <body>
     <div class="new-auth-wrapper">
@@ -25,7 +25,7 @@
         <div class="new-auth-form-container">
             <div class="new-auth-form-box">
                 <div class="auth-logo-center">
-                    <img src="./img/ImageProy.png" alt="Logo TicoAutos">
+                    <img src="./assets/img/ImageProy.png" alt="Logo TicoAutos">
                 </div>
                 
                 <div class="new-tabs">
@@ -48,7 +48,34 @@
                         <div class="form-options">
                             <label><input type="checkbox" checked> Remember me</label>
                         </div>
-                        <button type="submit" class="btn-gradient">LOGIN</button>
+                        <button type="submit" class="btn-gradient">INGRESAR</button>
+                    </form>
+                    <div style="margin-top: 16px; text-align: center;">
+                        <button onclick="window.location.href='/api/auth/google'" class="btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;">
+                            <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="18" alt="Google">
+                            Continuar con Google
+                        </button>
+                    </div>
+                </div>
+
+                <!-- GOOGLE CEDULA COMPLETION (Hidden by default) -->
+                <div id="google-cedula-section" class="form-section" style="display: none;">
+                    <h2 class="form-title">COMPLETAR PERFIL</h2>
+                    <p style="color: gray; margin-bottom: 20px;">Por requerimiento del TSE, necesitamos validar tu cédula para continuar.</p>
+                    <form id="google-cedula-form">
+                        <div class="new-input-group">
+                            <span class="icon">🆔</span>
+                            <input type="text" id="google-cedula" placeholder="Cédula (9 dígitos)" required maxlength="9">
+                        </div>
+                        <div class="new-input-group">
+                            <span class="icon">👤</span>
+                            <input type="text" id="google-firstname" placeholder="Nombre" readonly style="background: rgba(255,255,255,0.05);">
+                        </div>
+                        <div class="new-input-group">
+                            <span class="icon">👤</span>
+                            <input type="text" id="google-lastname" placeholder="Apellidos" readonly style="background: rgba(255,255,255,0.05);">
+                        </div>
+                        <button type="submit" class="btn-gradient">FINALIZAR REGISTRO</button>
                     </form>
                 </div>
 
@@ -56,6 +83,18 @@
                 <div id="register-section" class="form-section">
                     <h2 class="form-title">CREAR CUENTA</h2>
                     <form id="register-form">
+                        <div class="new-input-group">
+                            <span class="icon">🆔</span>
+                            <input type="text" id="register-cedula" placeholder="Cédula (9 dígitos)" required maxlength="9">
+                        </div>
+                        <div class="new-input-group">
+                            <span class="icon">👤</span>
+                            <input type="text" id="register-firstname" placeholder="Nombre (Autocompletado)" readonly style="background: rgba(255,255,255,0.05);">
+                        </div>
+                        <div class="new-input-group">
+                            <span class="icon">👤</span>
+                            <input type="text" id="register-lastname" placeholder="Apellidos (Autocompletado)" readonly style="background: rgba(255,255,255,0.05);">
+                        </div>
                         <div class="new-input-group">
                             <span class="icon">👤</span>
                             <input type="text" id="register-username" placeholder="Usuario" required>
@@ -82,6 +121,6 @@
         </div>
     </div>
 
-    <script src="../src/app.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 </html>
