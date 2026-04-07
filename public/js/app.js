@@ -62,29 +62,26 @@ document.getElementById('register-cedula').addEventListener('input', async (e) =
             const data = await response.json();
             
             if (response.ok) {
-                if (data.manual) {
-                    firstnameInput.value = '';
-                    lastnameInput.value = '';
-                    firstnameInput.readOnly = false;
-                    lastnameInput.readOnly = false;
-                    firstnameInput.style.background = '#25293d';
-                    lastnameInput.style.background = '#25293d';
-                    messageDiv.innerHTML = '<span style="color: #f59e0b;">Cédula no encontrada. Ingresa tus datos manualmente.</span>';
+                firstnameInput.value = data.nombre;
+                lastnameInput.value = `${data.primerApellido} ${data.segundoApellido}`;
+                firstnameInput.readOnly = true;
+                lastnameInput.readOnly = true;
+                firstnameInput.style.background = 'rgba(255,255,255,0.05)';
+                lastnameInput.style.background = 'rgba(255,255,255,0.05)';
+
+                if (data.esMayor) {
+                    messageDiv.innerHTML = `<span style="color: #4ade80;">Cédula verificada: ${data.edad} años.</span>`;
                 } else {
-                    firstnameInput.value = data.nombre;
-                    lastnameInput.value = `${data.primerApellido} ${data.segundoApellido}`;
-                    firstnameInput.readOnly = true;
-                    lastnameInput.readOnly = true;
-                    firstnameInput.style.background = 'rgba(255,255,255,0.05)';
-                    lastnameInput.style.background = 'rgba(255,255,255,0.05)';
-                    messageDiv.innerHTML = '<span style="color: #4ade80;">Cédula verificada con éxito.</span>';
+                    messageDiv.innerHTML = `<span style="color: #ef4444;">No puedes registrarte: tienes ${data.edad} años (Menor de edad).</span>`;
                 }
-            } 
-else {
+            } else {
                 firstnameInput.value = '';
                 lastnameInput.value = '';
-                firstnameInput.readOnly = true;
-                messageDiv.innerHTML = '<span style="color: #dc2626;">Cedula no encontrada o invalida.</span>';
+                firstnameInput.readOnly = false;
+                lastnameInput.readOnly = false;
+                firstnameInput.style.background = 'rgba(255,255,255,0.1)';
+                lastnameInput.style.background = 'rgba(255,255,255,0.1)';
+                messageDiv.innerHTML = '<span style="color: #fbbf24;">Cédula no encontrada. Por favor, ingresa tus datos manualmente.</span>';
             }
         } catch (error) {
             console.error('Error validating cedula:', error);
@@ -163,6 +160,17 @@ document.getElementById('google-cedula').addEventListener('input', async (e) => 
             if (response.ok) {
                 firstnameInput.value = data.nombre;
                 lastnameInput.value = `${data.primerApellido} ${data.segundoApellido}`;
+                firstnameInput.readOnly = true;
+                lastnameInput.readOnly = true;
+                firstnameInput.style.background = 'rgba(255,255,255,0.05)';
+                lastnameInput.style.background = 'rgba(255,255,255,0.05)';
+            } else {
+                firstnameInput.value = '';
+                lastnameInput.value = '';
+                firstnameInput.readOnly = false;
+                lastnameInput.readOnly = false;
+                firstnameInput.style.background = 'rgba(255,255,255,0.1)';
+                lastnameInput.style.background = 'rgba(255,255,255,0.1)';
             }
         } catch (error) { console.error(error); }
     }
@@ -172,6 +180,8 @@ document.getElementById('google-cedula').addEventListener('input', async (e) => 
 document.getElementById('google-cedula-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const cedula = document.getElementById('google-cedula').value;
+    const firstName = document.getElementById('google-firstname').value;
+    const lastName = document.getElementById('google-lastname').value;
     const token = localStorage.getItem('token');
 
     try {
@@ -181,7 +191,7 @@ document.getElementById('google-cedula-form').addEventListener('submit', async (
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ cedula })
+            body: JSON.stringify({ cedula, firstName, lastName })
         });
         if (response.ok) {
             window.location.href = 'dashboard.html';
