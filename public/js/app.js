@@ -58,7 +58,7 @@ document.getElementById('register-cedula').addEventListener('input', async (e) =
         lastnameInput.value = 'Buscando...';
         
         try {
-            const response = await fetch(`http://localhost:3000/api/auth/validate-cedula/${cedula}`);
+            const response = await fetch(`http://localhost:3000/api/cedula/validate/${cedula}`);
             const data = await response.json();
             
             if (response.ok) {
@@ -155,7 +155,7 @@ document.getElementById('google-cedula').addEventListener('input', async (e) => 
         const firstnameInput = document.getElementById('google-firstname');
         const lastnameInput = document.getElementById('google-lastname');
         try {
-            const response = await fetch(`http://localhost:3000/api/auth/validate-cedula/${cedula}`);
+            const response = await fetch(`http://localhost:3000/api/cedula/validate/${cedula}`);
             const data = await response.json();
             if (response.ok) {
                 firstnameInput.value = data.nombre;
