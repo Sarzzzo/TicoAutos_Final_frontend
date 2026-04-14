@@ -178,6 +178,40 @@ body {
     box-shadow: 0 0 15px var(--accent-glow);
 }
 
+/* Input with button container */
+.input-with-button {
+    display: flex;
+    gap: 12px;
+}
+
+.input-with-button input {
+    flex: 1;
+}
+
+.btn-search {
+    background: var(--primary-gradient);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 700;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.btn-search:hover {
+    box-shadow: 0 0 20px var(--accent-glow);
+    transform: translateY(-1px);
+}
+
+.btn-search:active {
+    transform: translateY(1px);
+}
+
 .row {
     display: flex;
     gap: 20px;

@@ -75,8 +75,11 @@
                     <form id="register-form">
                         <div class="input-group">
                             <label>Número de Cédula</label>
-                            <input type="text" id="register-cedula" placeholder="9 dígitos sin guiones" required
-                                maxlength="9">
+                            <div class="input-with-button">
+                                <input type="text" id="register-cedula" placeholder="9 dígitos sin guiones" required
+                                    maxlength="9">
+                                <button type="button" id="btn-search-register" class="btn-search">FIND</button>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -116,7 +119,10 @@
                     <form id="google-cedula-form">
                         <div class="input-group">
                             <label>Número de Cédula</label>
-                            <input type="text" id="google-cedula" placeholder="9 dígitos" required maxlength="9">
+                            <div class="input-with-button">
+                                <input type="text" id="google-cedula" placeholder="9 dígitos" required maxlength="9">
+                                <button type="button" id="btn-search-google" class="btn-search">FIND</button>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="input-group">
