@@ -47,47 +47,65 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
 });
 
 // Cedula autocompletion logic
-document.getElementById('register-cedula').addEventListener('input', async (e) => {
-    const cedula = e.target.value;
-    if (cedula.length === 9) {
-        const firstnameInput = document.getElementById('register-firstname');
-        const lastnameInput = document.getElementById('register-lastname');
-        const messageDiv = document.getElementById('status-message');
-        
-        firstnameInput.value = 'Buscando...';
-        lastnameInput.value = 'Buscando...';
-        
-        try {
-            const response = await fetch(`http://localhost:3000/api/cedula/validate/${cedula}`);
-            const data = await response.json();
-            
-            if (response.ok) {
-                firstnameInput.value = data.nombre;
-                lastnameInput.value = `${data.primerApellido} ${data.segundoApellido}`;
-                firstnameInput.readOnly = true;
-                lastnameInput.readOnly = true;
-                firstnameInput.style.background = 'rgba(255,255,255,0.05)';
-                lastnameInput.style.background = 'rgba(255,255,255,0.05)';
+// --- Cédula Lookup Logic ---
+async function handleCedulaLookup(cedulaInputId, firstnameId, lastnameId) {
+    const cedulaInput = document.getElementById(cedulaInputId);
+    const cedula = cedulaInput.value;
+    
+    if (cedula.length !== 9) {
+        alert('Por favor ingresa los 9 dígitos de tu cédula.');
+        return;
+    }
 
-                if (data.esMayor) {
-                    messageDiv.innerHTML = `<span style="color: #4ade80;">Cédula verificada: ${data.edad} años.</span>`;
-                } else {
-                    messageDiv.innerHTML = `<span style="color: #ef4444;">No puedes registrarte: tienes ${data.edad} años (Menor de edad).</span>`;
-                }
-            } else {
-                firstnameInput.value = '';
-                lastnameInput.value = '';
-                firstnameInput.readOnly = false;
-                lastnameInput.readOnly = false;
-                firstnameInput.style.background = 'rgba(255,255,255,0.1)';
-                lastnameInput.style.background = 'rgba(255,255,255,0.1)';
-                messageDiv.innerHTML = '<span style="color: #fbbf24;">Cédula no encontrada. Por favor, ingresa tus datos manualmente.</span>';
-            }
-        } catch (error) {
-            console.error('Error validating cedula:', error);
+    const firstnameInput = document.getElementById(firstnameId);
+    const lastnameInput = document.getElementById(lastnameId);
+    const messageDiv = document.getElementById('status-message');
+    
+    firstnameInput.value = 'Buscando...';
+    lastnameInput.value = 'Buscando...';
+    
+    try {
+        const response = await fetch(`http://localhost:3000/api/cedula/validate/${cedula}`);
+        const data = await response.json();
+        
+        if (response.ok) {
+            firstnameInput.value = data.nombre;
+            lastnameInput.value = `${data.primerApellido} ${data.segundoApellido}`;
+            firstnameInput.readOnly = true;
+            lastnameInput.readOnly = true;
+            firstnameInput.style.background = 'rgba(255,255,255,0.05)';
+            lastnameInput.style.background = 'rgba(255,255,255,0.05)';
+            messageDiv.innerHTML = `<span style="color: #4ade80;">Cédula verificada con éxito.</span>`;
+        } else {
             firstnameInput.value = '';
             lastnameInput.value = '';
+            firstnameInput.readOnly = false;
+            lastnameInput.readOnly = false;
+            firstnameInput.style.background = 'rgba(255,255,255,0.1)';
+            lastnameInput.style.background = 'rgba(255,255,255,0.1)';
+            messageDiv.innerHTML = '<span style="color: #fbbf24;">Cédula no encontrada. Por favor, ingresa tus datos manualmente.</span>';
         }
+    } catch (error) {
+        console.error('Error validating cedula:', error);
+        firstnameInput.value = '';
+        lastnameInput.value = '';
+        messageDiv.innerHTML = '<span style="color: #ef4444;">Error consultando la base de datos local.</span>';
+    }
+}
+
+// Event Listeners for Search Buttons
+document.getElementById('btn-search-register')?.addEventListener('click', () => {
+    handleCedulaLookup('register-cedula', 'register-firstname', 'register-lastname');
+});
+
+document.getElementById('btn-search-google')?.addEventListener('click', () => {
+    handleCedulaLookup('google-cedula', 'google-firstname', 'google-lastname');
+});
+
+// Also keep auto-search on 9 digits for convenience
+document.getElementById('register-cedula').addEventListener('input', (e) => {
+    if (e.target.value.length === 9) {
+        handleCedulaLookup('register-cedula', 'register-firstname', 'register-lastname');
     }
 });
 
