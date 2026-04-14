@@ -97,6 +97,11 @@
                             <label>Usuario</label>
                             <input type="text" id="register-username" placeholder="Nombre de usuario" required>
                         </div>
+                        
+                        <div class="input-group">
+                            <label>Número de Teléfono</label>
+                            <input type="tel" id="register-phone" placeholder="+506 8888 8888" required>
+                        </div>
 
                         <div class="input-group">
                             <label>Correo Electrónico</label>
@@ -134,7 +139,25 @@
                                 <input type="text" id="google-lastname" placeholder="Apellidos" readonly>
                             </div>
                         </div>
+                        <div class="input-group">
+                            <label>Número de Teléfono</label>
+                            <input type="tel" id="google-phone" placeholder="+506 8888 8888" required>
+                        </div>
                         <button type="submit" class="btn-primary">FINALIZAR REGISTRO</button>
+                    </form>
+                </div>
+
+                <!-- 2FA VERIFICATION SECTION (Hidden by default) -->
+                <div id="2fa-section" class="form-section" style="display: none;">
+                    <h1 class="auth-title">Verificación de Seguridad</h1>
+                    <p class="auth-subtitle">Ingresa el código de 6 dígitos enviado a tu celular</p>
+                    <form id="2fa-form">
+                        <div class="input-group">
+                            <label>Código de Seguridad</label>
+                            <input type="text" id="2fa-code" placeholder="123456" required maxlength="6" style="text-align: center; font-size: 24px; letter-spacing: 8px;">
+                        </div>
+                        <input type="hidden" id="2fa-userid">
+                        <button type="submit" class="btn-primary">VERIFICAR E INGRESAR</button>
                     </form>
                 </div>
 

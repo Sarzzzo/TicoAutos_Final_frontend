@@ -21,6 +21,7 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
     const username = document.getElementById('register-username').value;
     const firstName = document.getElementById('register-firstname').value;
     const lastName = document.getElementById('register-lastname').value;
+    const phoneNumber = document.getElementById('register-phone').value;
     const email = document.getElementById('register-email').value;
     const password = document.getElementById('register-password').value;
     const messageDiv = document.getElementById('status-message');
@@ -31,7 +32,7 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
         const response = await fetch('http://localhost:3000/api/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password, cedula, firstName, lastName }) // Added names
+            body: JSON.stringify({ username, email, password, cedula, firstName, lastName, phoneNumber }) 
         });
         const data = await response.json();
         if (response.ok) {
@@ -50,10 +51,11 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
 // --- Cédula Lookup Logic ---
 async function handleCedulaLookup(cedulaInputId, firstnameId, lastnameId) {
     const cedulaInput = document.getElementById(cedulaInputId);
-    const cedula = cedulaInput.value;
+    let cedula = cedulaInput.value.trim().replace(/\D/g, ''); // Convert to numeric only
     
-    if (cedula.length !== 9) {
-        alert('Por favor ingresa los 9 dígitos de tu cédula.');
+    // We only alert if it's very short, otherwise we let the backend handle it
+    if (cedula.length < 5) {
+        alert('Por favor ingresa un número de cédula válido.');
         return;
     }
 
@@ -83,7 +85,8 @@ async function handleCedulaLookup(cedulaInputId, firstnameId, lastnameId) {
             lastnameInput.readOnly = false;
             firstnameInput.style.background = 'rgba(255,255,255,0.1)';
             lastnameInput.style.background = 'rgba(255,255,255,0.1)';
-            messageDiv.innerHTML = '<span style="color: #fbbf24;">Cédula no encontrada. Por favor, ingresa tus datos manualmente.</span>';
+            // Show the actual message from backend (e.g. "Cédula no encontrada" or "Debe ser de 9 dígitos")
+            messageDiv.innerHTML = `<span style="color: #fbbf24;">${data.message || 'Cédula no encontrada.'} Por favor, ingresa tus datos manualmente.</span>`;
         }
     } catch (error) {
         console.error('Error validating cedula:', error);
@@ -104,7 +107,8 @@ document.getElementById('btn-search-google')?.addEventListener('click', () => {
 
 // Also keep auto-search on 9 digits for convenience
 document.getElementById('register-cedula').addEventListener('input', (e) => {
-    if (e.target.value.length === 9) {
+    const val = e.target.value.replace(/\D/g, '');
+    if (val.length === 9) {
         handleCedulaLookup('register-cedula', 'register-firstname', 'register-lastname');
     }
 });
@@ -130,14 +134,51 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         const data = await response.json();
 
         if (response.ok) {
-            localStorage.setItem('token', data.token);
-            messageDiv.innerHTML = '<span style="color: var(--accent);">Sesion iniciada! Redirigiendo...</span>';
-            setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+            if (data.require2FA) {
+                // Show 2FA section
+                document.querySelectorAll('.form-section').forEach(sec => sec.classList.remove('active'));
+                document.getElementById('2fa-section').style.display = 'block';
+                document.getElementById('2fa-userid').value = data.userId;
+                messageDiv.innerHTML = '<span style="color: #4ade80;">Clave correcta. Ingresa el código SMS.</span>';
+            } else {
+                localStorage.setItem('token', data.token);
+                messageDiv.innerHTML = '<span style="color: var(--accent);">Sesion iniciada! Redirigiendo...</span>';
+                setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+            }
         } else {
-            messageDiv.innerHTML = '<span style="color: #dc2626;">Credenciales incorrectas.</span>';
+            messageDiv.innerHTML = `<span style="color: #dc2626;">${data.message || 'Credenciales incorrectas.'}</span>`;
         }
     } catch (error) {
         messageDiv.innerHTML = '<span style="color: #dc2626;">Error critico de servidor.</span>';
+    }
+});
+
+// 2FA Form Handler
+document.getElementById('2fa-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const code = document.getElementById('2fa-code').value;
+    const userId = document.getElementById('2fa-userid').value;
+    const messageDiv = document.getElementById('status-message');
+
+    messageDiv.innerHTML = '<span style="color: gray;">Verificando código...</span>';
+
+    try {
+        const response = await fetch('http://localhost:3000/api/auth/verify-2fa', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId, code })
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem('token', data.token);
+            messageDiv.innerHTML = '<span style="color: #4ade80;">Código verificado! Entrando...</span>';
+            setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+        } else {
+            messageDiv.innerHTML = `<span style="color: #dc2626;">${data.message || 'Código incorrecto.'}</span>`;
+        }
+    } catch (error) {
+        messageDiv.innerHTML = '<span style="color: #dc2626;">Error en servidor.</span>';
     }
 });
 
@@ -200,6 +241,7 @@ document.getElementById('google-cedula-form').addEventListener('submit', async (
     const cedula = document.getElementById('google-cedula').value;
     const firstName = document.getElementById('google-firstname').value;
     const lastName = document.getElementById('google-lastname').value;
+    const phoneNumber = document.getElementById('google-phone').value;
     const token = localStorage.getItem('token');
 
     try {
@@ -209,7 +251,7 @@ document.getElementById('google-cedula-form').addEventListener('submit', async (
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ cedula, firstName, lastName })
+            body: JSON.stringify({ cedula, firstName, lastName, phoneNumber })
         });
         if (response.ok) {
             window.location.href = 'dashboard.html';
