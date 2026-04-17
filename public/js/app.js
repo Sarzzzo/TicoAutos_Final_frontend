@@ -243,6 +243,14 @@ document.getElementById('google-cedula-form').addEventListener('submit', async (
     const lastName = document.getElementById('google-lastname').value;
     const phoneNumber = document.getElementById('google-phone').value;
     const token = localStorage.getItem('token');
+    const messageDiv = document.getElementById('status-message');
+
+    if (!cedula) {
+        messageDiv.innerHTML = '<span style="color: #dc2626;">Debes ingresar tu número de cédula.</span>';
+        return;
+    }
+
+    messageDiv.innerHTML = '<span style="color: gray;">Completando perfil...</span>';
 
     try {
         const response = await fetch('http://localhost:3000/api/auth/complete-google-profile', {
@@ -253,12 +261,15 @@ document.getElementById('google-cedula-form').addEventListener('submit', async (
             },
             body: JSON.stringify({ cedula, firstName, lastName, phoneNumber })
         });
+        const data = await response.json();
         if (response.ok) {
-            window.location.href = 'dashboard.html';
+            messageDiv.innerHTML = '<span style="color: #4ade80;">Perfil completado! Entrando...</span>';
+            setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
         } else {
-            alert('Error al completar perfil. Intentalo de nuevo.');
+            messageDiv.innerHTML = `<span style="color: #dc2626;">${data.message || 'Error al completar perfil.'}</span>`;
         }
     } catch (error) {
         console.error(error);
+        messageDiv.innerHTML = '<span style="color: #dc2626;">Error de conexión con el servidor.</span>';
     }
 });
