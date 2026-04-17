@@ -9,7 +9,15 @@
 </head>
 
 <body>
-    <div class="auth-container">
+    <!-- 
+        Cargamos Vue 3 y vue3-sfc-loader vía CDN 
+        Esto nos permite usar archivos .vue sin herramientas de construcción como Webpack o Vite.
+    -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
+
+    <!-- El "app" es el div donde Vue va a inyectar toda la reactividad -->
+    <div class="auth-container" id="app">
         <!-- LEFT: BRANDING SIDEBAR -->
         <div class="auth-sidebar" style="background-image: url('./assets/img/auth-brand.png');">
             <div class="sidebar-overlay"></div>
@@ -26,153 +34,48 @@
 
         <!-- RIGHT: FORM SIDE -->
         <div class="auth-main">
-            <div class="auth-card">
-                <div class="auth-tabs">
-                    <button class="tab-btn active" onclick="switchTab('login')">Ingresar</button>
-                    <button class="tab-btn" onclick="switchTab('register')">Crear Cuenta</button>
-                </div>
-
-                <!-- LOGIN SECTION -->
-                <div id="login-section" class="form-section active">
-                    <h1 class="auth-title">Bienvenido de vuelta</h1>
-                    <p class="auth-subtitle">Ingresa tus credenciales para continuar</p>
-
-                    <form id="login-form">
-                        <div class="input-group">
-                            <label>Usuario o Correo</label>
-                            <input type="text" id="login-username" placeholder="tu@email.com o usuario" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Contraseña</label>
-                            <input type="password" id="login-password" placeholder="••••••••" required>
-                        </div>
-                        <div class="form-footer">
-                            <label class="checkbox-container">
-                                <input type="checkbox" checked>
-                                <span class="checkmark"></span>
-                                Recordarme
-                            </label>
-                            <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
-                        </div>
-                        <button type="submit" class="btn-primary">INGRESAR</button>
-                    </form>
-
-                    <div class="divider"><span>o continúa con</span></div>
-
-                    <div class="social-login">
-                        <button onclick="window.location.href='/api/auth/google'" class="btn-social">
-                            <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google">
-                            Google
-                        </button>
-                    </div>
-                </div>
-
-                <!-- REGISTER SECTION -->
-                <div id="register-section" class="form-section">
-                    <h1 class="auth-title">Crea tu cuenta</h1>
-                    <p class="auth-subtitle">Únete a la mayor comunidad automotriz</p>
-
-                    <form id="register-form">
-                        <div class="input-group">
-                            <label>Número de Cédula</label>
-                            <div class="input-with-button">
-                                <input type="text" id="register-cedula" placeholder="9 dígitos sin guiones" required
-                                    maxlength="9">
-                                <button type="button" id="btn-search-register" class="btn-search">FIND</button>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="input-group">
-                                <label>Nombre</label>
-                                <input type="text" id="register-firstname" placeholder="Nombre completo" readonly>
-                            </div>
-                            <div class="input-group">
-                                <label>Apellidos</label>
-                                <input type="text" id="register-lastname" placeholder="Apellidos" readonly>
-                            </div>
-                        </div>
-
-                        <div class="input-group">
-                            <label>Usuario</label>
-                            <input type="text" id="register-username" placeholder="Nombre de usuario" required>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label>Número de Teléfono</label>
-                            <input type="tel" id="register-phone" placeholder="+506 8888 8888" required>
-                        </div>
-
-                        <div class="input-group">
-                            <label>Correo Electrónico</label>
-                            <input type="email" id="register-email" placeholder="correo@ejemplo.com" required>
-                        </div>
-
-                        <div class="input-group">
-                            <label>Contraseña</label>
-                            <input type="password" id="register-password" placeholder="Mínimo 6 caracteres" required>
-                        </div>
-
-                        <button type="submit" class="btn-primary">CREAR CUENTA</button>
-                    </form>
-                </div>
-
-                <!-- GOOGLE CEDULA COMPLETION (Hidden by default) -->
-                <div id="google-cedula-section" class="form-section" style="display: none;">
-                    <h1 class="auth-title">Completar Perfil</h1>
-                    <p class="auth-subtitle">Necesitamos validar tu identidad para finalizar</p>
-                    <form id="google-cedula-form">
-                        <div class="input-group">
-                            <label>Número de Cédula</label>
-                            <div class="input-with-button">
-                                <input type="text" id="google-cedula" placeholder="9 dígitos" required maxlength="9">
-                                <button type="button" id="btn-search-google" class="btn-search">FIND</button>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-group">
-                                <label>Nombre</label>
-                                <input type="text" id="google-firstname" placeholder="Nombre" readonly>
-                            </div>
-                            <div class="input-group">
-                                <label>Apellidos</label>
-                                <input type="text" id="google-lastname" placeholder="Apellidos" readonly>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <label>Número de Teléfono</label>
-                            <input type="tel" id="google-phone" placeholder="+506 8888 8888" required>
-                        </div>
-                        <button type="submit" class="btn-primary">FINALIZAR REGISTRO</button>
-                    </form>
-                </div>
-
-                <!-- 2FA VERIFICATION SECTION (Hidden by default) -->
-                <div id="2fa-section" class="form-section" style="display: none;">
-                    <h1 class="auth-title">Verificación de Seguridad</h1>
-                    <p class="auth-subtitle">Ingresa el código de 6 dígitos enviado a tu celular</p>
-                    <form id="2fa-form">
-                        <div class="input-group">
-                            <label>Código de Seguridad</label>
-                            <input type="text" id="2fa-code" placeholder="123456" required maxlength="6" style="text-align: center; font-size: 24px; letter-spacing: 8px;">
-                        </div>
-                        <div id="2fa-timer" style="text-align: center; margin: 16px 0; font-size: 18px; color: #3b82f6; font-weight: bold;">⏱ 5:00</div>
-                        <input type="hidden" id="2fa-userid">
-                        <button type="submit" class="btn-primary" id="2fa-submit-btn">VERIFICAR E INGRESAR</button>
-                    </form>
-                </div>
-
-                <div class="guest-access">
-                    <p>¿Solo quieres explorar? <button onclick="enterAsGuest()" class="btn-link">Ingresar como
-                            invitado</button></p>
-                </div>
-
-                <div id="status-message" class="status-box"></div>
-            </div>
+            <!-- 
+                Aquí se inyecta el componente AuthApp.vue que creamos.
+                Vue reemplazará esta etiqueta con el HTML de AuthApp.vue
+            -->
+            <auth-app></auth-app>
         </div>
     </div>
 
-    <script src="./js/app.js"></script>
+    <!-- Script de inicialización de Vue y carga del componente -->
+    <script>
+        // Configuración para que el loader cargue archivos .vue del sistema
+        const options = {
+            moduleCache: {
+                vue: Vue
+            },
+            async getFile(url) {
+                const res = await fetch(url);
+                if (!res.ok) throw Object.assign(new Error(res.statusText + ' ' + url), { res });
+                return {
+                    getContentData: asBinary => asBinary ? res.arrayBuffer() : res.text(),
+                }
+            },
+            addStyle(textContent) {
+                const style = Object.assign(document.createElement('style'), { textContent });
+                const ref = document.head.getElementsByTagName('style')[0] || null;
+                document.head.insertBefore(style, ref);
+            },
+        };
+
+        const { loadModule } = window['vue3-sfc-loader'];
+
+        // Creamos la aplicación central de Vue
+        const app = Vue.createApp({
+            components: {
+                // Definimos que la etiqueta <auth-app> cargue el archivo AuthApp.vue
+                'auth-app': Vue.defineAsyncComponent(() => loadModule('./vue-components/AuthApp.vue', options))
+            }
+        });
+
+        // Montamos la aplicación de Vue en el div #app
+        app.mount('#app');
+    </script>
 </body>
 
 </html>

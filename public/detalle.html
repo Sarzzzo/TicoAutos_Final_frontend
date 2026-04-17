@@ -7,82 +7,39 @@
     <link rel="stylesheet" href="./css/detail.css">
 </head>
 <body>
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <a href="dashboard.html" class="back-arrow" title="Volver al catálogo" style="color: #fff; text-decoration: none; font-size: 22px; margin-right: 10px; opacity: 0.7; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">←</a>
-        <a href="dashboard.html" class="navbar-logo">
-            <img src="./assets/img/ImageProy.png" alt="Logo TicoAutos" class="logo-img">
-        </a>
-        <div class="navbar-center">
-            <span class="navbar-link" onclick="window.location.href='dashboard.html'">Volver al Catalogo</span>
-            <span class="navbar-link" id="nav-publish-link" onclick="window.location.href='publicar.html'" style="display:none;">Publicar</span>
-        </div>
-        <div class="navbar-right">
-            <div id="auth-nav" style="display: none; align-items: center; gap: 16px;">
-                <button class="icon-btn" onclick="window.location.href='mensajes.html'" title="Mensajes">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                    <span class="badge" id="unread-count" style="display: none;">0</span>
-                </button>
-                <div class="user-avatar" onclick="logout()" title="Cerrar Sesion">U</div>
-            </div>
-            <div id="noauth-nav" style="display: none; align-items: center; gap: 12px;">
-                <button class="btn-primary" onclick="window.location.href='/'">Iniciar Sesion</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- LOADING -->
-    <div id="loading" style="text-align: center; margin-top: 100px; font-size: 20px; color: #888;">
-        Cargando vehiculo...
+    <!-- Contenedor principal de Vue -->
+    <div id="app">
+        <detail-app></detail-app>
     </div>
 
-    <!-- DETAIL -->
-    <div class="detail-container" id="vehicle-container" style="display: none;">
-        <div class="detail-card">
-            <div class="detail-image" id="detail-image"></div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;">
-                <h1 id="vehicle-title" class="detail-title">Cargando...</h1>
-                <div style="display: flex; align-items: center; gap: 16px;">
-                    <div id="vehicle-price" class="detail-price">₡0</div>
-                    <button id="share-btn" class="icon-btn" title="Compartir Vehiculo" style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
-                    </button>
-                </div>
-            </div>
-            <div class="detail-tags">
-                <span id="vehicle-year" class="detail-tag">Año: 0000</span>
-                <span id="vehicle-status" class="detail-tag status">Cargando</span>
-                <span id="vehicle-owner" class="detail-tag">Vendedor</span>
-            </div>
-            <h3 style="margin: 24px 0 12px; color: #222; font-size: 20px;">Descripcion</h3>
-            <p id="vehicle-description" style="color: #555; line-height: 1.8; font-size: 16px;">Cargando...</p>
-            <!-- OWNER ACTIONS: Mark as sold -->
-            <div id="owner-section" style="display: none; margin-top: 30px; padding-top: 24px; border-top: 1px solid #eee;">
-                <button class="btn-primary" id="mark-sold-btn" style="width: 100%; padding: 16px; font-size: 16px; background: #EF4444;">
-                    Marcar como Vendido
-                </button>
-                <p style="text-align: center; margin-top: 10px; color: #888; font-size: 13px;">
-                    Una vez vendido, el estado no se puede revertir
-                </p>
-            </div>
-            <!-- BUYER ACTIONS: Send message -->
-            <div id="contact-section" style="display: none; margin-top: 30px; padding-top: 24px; border-top: 1px solid #eee;">
-                <button class="btn-primary" id="contact-btn" style="width: 100%; padding: 16px; font-size: 16px;">
-                    Enviar Mensaje al Vendedor
-                </button>
-                <p style="text-align: center; margin-top: 10px; color: #888; font-size: 13px;">Se abrira un chat privado con el vendedor</p>
-            </div>
-            <!-- GUEST ACTIONS: Prompt to login -->
-            <div id="guest-section" style="display: none; margin-top: 30px; padding-top: 24px; border-top: 1px solid #eee; text-align: center;">
-                <p style="color: #888; margin-bottom: 14px; font-size: 15px;">Inicia sesion para contactar al vendedor.</p>
-                <button class="btn-secondary" onclick="window.location.href='/'" style="width: 100%; padding: 14px; font-size: 15px;">
-                    Iniciar Sesion / Registrarse
-                </button>
-            </div>
-        </div>
-    </div>
+    <!-- Scripts para cargar Vue y nuestro archivo .vue (SFC loader) -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
 
-    <script src="./js/common.js"></script>
-    <script src="./js/detail.js"></script>
+    <script>
+        const options = {
+            moduleCache: { vue: Vue },
+            async getFile(url) {
+                const res = await fetch(url);
+                if (!res.ok) throw Object.assign(new Error(res.statusText + ' ' + url), { res });
+                return { getContentData: asBinary => asBinary ? res.arrayBuffer() : res.text() };
+            },
+            addStyle(textContent) {
+                const style = Object.assign(document.createElement('style'), { textContent });
+                const ref = document.head.getElementsByTagName('style')[0] || null;
+                document.head.insertBefore(style, ref);
+            },
+        };
+
+        const { loadModule } = window['vue3-sfc-loader'];
+
+        const app = Vue.createApp({
+            components: {
+                'detail-app': Vue.defineAsyncComponent(() => loadModule('./vue-components/DetailApp.vue', options))
+            }
+        });
+
+        app.mount('#app');
+    </script>
 </body>
 </html>

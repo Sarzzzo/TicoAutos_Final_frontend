@@ -17,29 +17,40 @@
         </div>
     </nav>
 
-    <!-- WHATSAPP-STYLE LAYOUT -->
-    <div class="chat-layout">
-        <!-- LEFT: Chat list -->
-        <div class="chat-sidebar">
-            <div class="chat-sidebar-header">
-                <h2>Mensajes</h2>
-            </div>
-            <div class="chat-list" id="chat-list">
-                <!-- Injected by messages.js -->
-                <div class="chat-empty" style="padding: 40px 20px;">
-                    <h3>Cargando chats...</h3>
-                </div>
-            </div>
-        </div>
-        <!-- RIGHT: Conversation -->
-        <div class="chat-main" id="chat-main">
-            <div class="chat-empty">
-                <h3>Selecciona una conversacion</h3>
-                <p>Elige un chat de la lista para ver los mensajes</p>
-            </div>
-        </div>
+    <!-- Contenedor principal de Vue -->
+    <div id="app">
+        <!-- Nuestro componente Vue -->
+        <messages-app></messages-app>
     </div>
-    <script src="./js/common.js"></script>
-    <script src="./js/messages.js"></script>
+
+    <!-- Scripts para cargar Vue y nuestro archivo .vue (SFC loader) -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
+
+    <script>
+        const options = {
+            moduleCache: { vue: Vue },
+            async getFile(url) {
+                const res = await fetch(url);
+                if (!res.ok) throw Object.assign(new Error(res.statusText + ' ' + url), { res });
+                return { getContentData: asBinary => asBinary ? res.arrayBuffer() : res.text() };
+            },
+            addStyle(textContent) {
+                const style = Object.assign(document.createElement('style'), { textContent });
+                const ref = document.head.getElementsByTagName('style')[0] || null;
+                document.head.insertBefore(style, ref);
+            },
+        };
+
+        const { loadModule } = window['vue3-sfc-loader'];
+
+        const app = Vue.createApp({
+            components: {
+                'messages-app': Vue.defineAsyncComponent(() => loadModule('./vue-components/MessagesApp.vue', options))
+            }
+        });
+
+        app.mount('#app');
+    </script>
 </body>
 </html>
