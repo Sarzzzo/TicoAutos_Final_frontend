@@ -140,6 +140,9 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
                 document.getElementById('2fa-section').style.display = 'block';
                 document.getElementById('2fa-userid').value = data.userId;
                 messageDiv.innerHTML = '<span style="color: #4ade80;">Clave correcta. Ingresa el código SMS.</span>';
+                
+                // Start 5-minute countdown
+                start2FATimer();
             } else {
                 localStorage.setItem('token', data.token);
                 messageDiv.innerHTML = '<span style="color: var(--accent);">Sesion iniciada! Redirigiendo...</span>';
@@ -273,3 +276,45 @@ document.getElementById('google-cedula-form').addEventListener('submit', async (
         messageDiv.innerHTML = '<span style="color: #dc2626;">Error de conexión con el servidor.</span>';
     }
 });
+
+// 2FA Countdown Timer
+let timerInterval = null;
+function start2FATimer() {
+    // Clear any previous timer
+    if (timerInterval) clearInterval(timerInterval);
+    
+    let timeLeft = 5 * 60; // 5 minutes in seconds
+    const timerEl = document.getElementById('2fa-timer');
+    const codeInput = document.getElementById('2fa-code');
+    const submitBtn = document.getElementById('2fa-submit-btn');
+    
+    // Reset state
+    codeInput.disabled = false;
+    submitBtn.disabled = false;
+    submitBtn.style.opacity = '1';
+    
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerEl.textContent = `⏱ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        // Change color when less than 1 minute
+        if (timeLeft <= 60) {
+            timerEl.style.color = '#ef4444';
+        } else {
+            timerEl.style.color = '#3b82f6';
+        }
+        
+        // Time expired
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            timerEl.textContent = '⏱ Código expirado';
+            timerEl.style.color = '#ef4444';
+            codeInput.disabled = true;
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.5';
+            document.getElementById('status-message').innerHTML = '<span style="color: #dc2626;">El código ha expirado. Inicia sesión de nuevo.</span>';
+        }
+    }, 1000);
+}
