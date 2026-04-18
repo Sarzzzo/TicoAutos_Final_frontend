@@ -68,8 +68,8 @@
         // Creamos la aplicación central de Vue
         const app = Vue.createApp({
             components: {
-                // Definimos que la etiqueta <auth-app> cargue el archivo AuthApp.vue
-                'auth-app': Vue.defineAsyncComponent(() => loadModule('./vue-components/AuthApp.vue', options))
+                // Definimos que la etiqueta <auth-app> cargue el archivo AuthMain.vue
+                'auth-app': Vue.defineAsyncComponent(() => loadModule('./vue-components/auth/AuthMain.vue', options))
             }
         });
 
