@@ -46,7 +46,7 @@
 
         const app = Vue.createApp({
             components: {
-                'messages-app': Vue.defineAsyncComponent(() => loadModule('./vue-components/MessagesApp.vue', options))
+                'messages-app': Vue.defineAsyncComponent(() => loadModule('./vue-components/chat/MessagesMain.vue', options))
             }
         });
 
